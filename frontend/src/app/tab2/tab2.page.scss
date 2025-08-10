@@ -1,0 +1,12 @@
+.price-line {
+  .price {
+    font-weight: 700;
+  }
+  &.up .price { color: #22c55e; }
+  &.down .price { color: #ef4444; }
+}
+
+.sparkline {
+  margin-top: 6px;
+}
+

@@ -1,0 +1,37 @@
+<ion-header [translucent]="true">
+    <ion-toolbar>
+      <ion-title>Watchlist</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+        <ion-title size="large">Watchlist</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-list>
+    <ion-item *ngFor="let s of symbols; trackBy: trackBySymbol">
+      <ion-label>
+        <h2>{{ s }}</h2>
+        <div class="price-line" [ngClass]="priceClass(s)">
+          <span class="price" *ngIf="latestBySymbol.get(s) as q">{{ q.price | number:'1.2-2' }}</span>
+        </div>
+        <div class="sparkline">
+          <apx-chart
+            [series]="getSeries(s)"
+            [chart]="sparkChart"
+            [xaxis]="sparkXAxis"
+            [stroke]="sparkStroke"
+            [dataLabels]="sparkDataLabels"
+            [tooltip]="sparkTooltip">
+          </apx-chart>
+        </div>
+      </ion-label>
+      <ion-button fill="clear" slot="end">
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>

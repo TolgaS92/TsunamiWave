@@ -1,0 +1,55 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Tab 1
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Live Quotes</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-row class="ion-align-items-center">
+        <ion-col size="8">
+          <ion-card-title>Live {{ selectedSymbol }} </ion-card-title>
+          <ion-card-subtitle *ngIf="latest">{{ latest.timestampUtc | date:'shortTime' }}</ion-card-subtitle>
+        </ion-col>
+        <ion-col size="4" class="ion-text-right">
+          <ion-select interface="popover" [value]="selectedSymbol" (ionChange)="onChangeSymbol($event.detail.value)">
+            <ion-select-option *ngFor="let s of symbols" [value]="s">{{ s }}</ion-select-option>
+          </ion-select>
+        </ion-col>
+      </ion-row>
+    </ion-card-header>
+    <ion-card-content>
+      <apx-chart #priceChart
+        [series]="series"
+        [chart]="chart"
+        [xaxis]="xaxis"
+        [yaxis]="yaxis"
+        [stroke]="stroke"
+        [dataLabels]="dataLabels"
+        [grid]="grid"
+        [tooltip]="tooltip"
+        [theme]="theme"
+        [markers]="markers"
+        [fill]="fill"
+        [colors]="colors">
+      </apx-chart>
+      <div class="price-row" *ngIf="latest as q">
+        <span class="price">{{ q.price | number:'1.2-2' }}</span>
+        <span class="muted">Updated {{ q.timestampUtc | date:'mediumTime' }}</span>
+      </div>
+      <div *ngIf="!latest" class="loading-row">
+        <ion-spinner></ion-spinner>
+        <span>Connecting to quotes...</span>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
